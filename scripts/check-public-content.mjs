@@ -14,20 +14,11 @@ const basePrivatePaths = [
   ".agents/",
   ".obsidian/",
   ".private-content.json",
-  "私有资料审计清单.md"
+  "私有资料审计清单.md",
+  "99-业务场景实践题/简历项目复盘/"
 ];
 
-const legacyPrivatePathPatterns = [
-  /^2-Java高级\/01-反射与字节码\/2026-05-05-.+\.md$/u,
-  /^3-Java框架\/04-ORM与数据访问\/2026-05-05-.+\.md$/u,
-  /^3-Java框架\/05-常用中间件\/2026-05-05-.+\.md$/u,
-  /^4-架构设计\/03-高可用与高并发\/2026-05-05-.+\.md$/u,
-  /^4-架构设计\/04-数据一致性\/2026-05-05-.+\.md$/u,
-  /^5-性能优化\/02-数据库优化\/2026-05-05-.+\.md$/u,
-  /^5-性能优化\/03-缓存策略\/2026-05-05-.+\.md$/u,
-  /^7-工程实践\/01-代码质量\/2026-05-05-.+\.md$/u,
-  /^8-面试与总结\/02-项目复盘\/2026-05-05-.+\.md$/u
-];
+const legacyPrivatePathPatterns = [];
 
 const manifestPath = join(root, ".private-content.json");
 const manifest = existsSync(manifestPath)
@@ -196,23 +187,10 @@ const validateSourceConfiguration = () => {
   }
 
   for (const pattern of [
-    "/2-Java高级/01-反射与字节码/2026-05-05-*.md",
-    "/3-Java框架/04-ORM与数据访问/2026-05-05-*.md",
-    "/3-Java框架/05-常用中间件/2026-05-05-*.md",
-    "/4-架构设计/03-高可用与高并发/2026-05-05-*.md",
-    "/4-架构设计/04-数据一致性/2026-05-05-*.md",
-    "/5-性能优化/02-数据库优化/2026-05-05-*.md",
-    "/5-性能优化/03-缓存策略/2026-05-05-*.md",
-    "/7-工程实践/01-代码质量/2026-05-05-*.md",
-    "/8-面试与总结/02-项目复盘/2026-05-05-*.md"
+    "/99-业务场景实践题/简历项目复盘/"
   ]) {
     if (!gitignore.includes(pattern)) {
       violations.push(`.gitignore: missing ${pattern}`);
-    }
-
-    if (!privateContent.includes(`!${pattern.slice(1)}`)) {
-      violations.push(".vuepress/private-content.ts: missing legacy private content pattern");
-      break;
     }
   }
 
