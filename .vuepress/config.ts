@@ -19,6 +19,7 @@ export default defineUserConfig({
   lang: "zh-CN",
   title: "Java 架构学习笔记",
   description: "面向 Java 架构能力的公开技术学习笔记。",
+  head: [["link", { rel: "icon", href: "/logo.png" }]],
   dest: ".vuepress/dist",
   temp: tempDirectory,
   cache: cacheDirectory,
