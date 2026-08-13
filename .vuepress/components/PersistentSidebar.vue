@@ -24,6 +24,9 @@ const router = useRouter();
 const expandedGroups = ref<Set<string>>(new Set());
 
 const isGroup = (item: SidebarItem): item is SidebarGroup => "children" in item;
+// README 标题可能带有与目录名一致的数字前缀，展示时保留正文名称即可。
+const folderTitle = (text: string) => text.replace(/^\d+\s*(?:[-._、]|-)\s*/u, "");
+
 const matchesRoute = (item: SidebarItem): boolean => {
   if (!isGroup(item)) {
     return route.path === item.link;
@@ -115,7 +118,7 @@ watch(
               aria-hidden="true"
             ></span>
             <span class="persistent-sidebar__folder-icon" aria-hidden="true"></span>
-            <span>{{ item.text }}</span>
+            <span>{{ folderTitle(item.text) }}</span>
           </button>
           <ul v-show="expandedGroups.has(groupKey('root', index))" class="persistent-sidebar__children">
             <template v-for="(child, childIndex) in item.children" :key="`${child.text}-${childIndex}`">
@@ -144,7 +147,7 @@ watch(
                     aria-hidden="true"
                   ></span>
                   <span class="persistent-sidebar__folder-icon" aria-hidden="true"></span>
-                  <span>{{ child.text }}</span>
+                  <span>{{ folderTitle(child.text) }}</span>
                 </button>
                 <ul
                   v-show="expandedGroups.has(groupKey(groupKey('root', index), childIndex))"

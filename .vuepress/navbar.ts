@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, type Dirent } from "node:fs";
 import { join } from "node:path";
 import { getRelativePath, isPublicArticle } from "./private-content.js";
 
@@ -35,6 +35,21 @@ const publicTopLevelDirectories = [
 const stripOrderPrefix = (value: string) => value.replace(/^\d+-/u, "");
 const stripDatePrefix = (value: string) => value.replace(/^\d{4}-\d{2}-\d{2}-/u, "");
 
+// 数字前缀表达本地编排顺序；同级目录统一排在文章前面。
+const compareLocalNames = (left: string, right: string) =>
+  left.localeCompare(right, "zh-CN", {
+    numeric: true,
+    sensitivity: "base"
+  });
+
+const compareDirectoryEntries = (left: Dirent, right: Dirent) => {
+  if (left.isDirectory() !== right.isDirectory()) {
+    return left.isDirectory() ? -1 : 1;
+  }
+
+  return compareLocalNames(left.name, right.name);
+};
+
 const decodeTitle = (filePath: string) => {
   const source = readFileSync(filePath, "utf8");
   const title = source.match(/^#\s+(.+)$/mu)?.[1]?.trim();
@@ -55,7 +70,7 @@ const toRoute = (filePath: string) => {
 const readArticles = (directoryPath: string): NavbarArticle[] =>
   readdirSync(directoryPath, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md") && entry.name !== "README.md")
-    .sort((left, right) => left.name.localeCompare(right.name, "zh-CN"))
+    .sort((left, right) => compareLocalNames(left.name, right.name))
     .filter((entry) => isPublicArticle(join(directoryPath, entry.name)))
     .map((entry) => {
       const filePath = join(directoryPath, entry.name);
@@ -71,7 +86,7 @@ const readDirectories = (topLevelDirectory: string): NavbarDirectory[] => {
 
   const nestedDirectories = readdirSync(directoryPath, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .sort((left, right) => left.name.localeCompare(right.name, "zh-CN"));
+    .sort(compareDirectoryEntries);
 
   const directories = nestedDirectories.map((entry) => {
     const nestedPath = join(directoryPath, entry.name);
@@ -85,7 +100,7 @@ const readDirectories = (topLevelDirectory: string): NavbarDirectory[] => {
   const topLevelArticles = readArticles(directoryPath);
 
   if (topLevelArticles.length > 0) {
-    directories.unshift({
+    directories.push({
       text: "专题文章",
       children: topLevelArticles
     });
