@@ -15,10 +15,13 @@ const basePrivatePaths = [
   ".obsidian/",
   ".private-content.json",
   "私有资料审计清单.md",
-  "99-业务场景实践题/简历项目复盘/"
+  "99-业务场景实践题/简历项目复盘/",
+  "99-业务场景实践题/README.md"
 ];
 
-const legacyPrivatePathPatterns = [];
+const legacyPrivatePathPatterns = [
+  "8-面试与总结/01-高频面试题/面试角色交互模式提示词.md"
+];
 
 const manifestPath = join(root, ".private-content.json");
 const manifest = existsSync(manifestPath)
@@ -26,6 +29,7 @@ const manifest = existsSync(manifestPath)
   : {};
 const manifestPrivatePaths = Array.isArray(manifest.privatePaths) ? manifest.privatePaths : [];
 const privatePaths = [...basePrivatePaths, ...manifestPrivatePaths];
+const allPrivatePathsIncludingLegacy = [...privatePaths, ...legacyPrivatePathPatterns];
 
 const publicForbiddenText = [
   "简历",
@@ -70,7 +74,9 @@ const commits = () =>
 const isPrivatePath = (file) =>
   privatePaths.some((privatePath) =>
     privatePath.endsWith("/") ? file.startsWith(privatePath) : file === privatePath
-  ) || legacyPrivatePathPatterns.some((pattern) => pattern.test(file));
+  ) || legacyPrivatePathPatterns.some((legacyPath) =>
+    legacyPath.endsWith("/") ? file.startsWith(legacyPath) : file === legacyPath
+  );
 
 const scanText = (files) => {
   const violations = [];
@@ -112,12 +118,44 @@ const scanHistoryText = () => {
       );
 
       if (output.trim()) {
-        violations.push(
-          ...output
-            .trim()
-            .split(/\r?\n/u)
-            .map((line) => `history ${commit.slice(0, 12)}: ${line}`)
-        );
+        const matches = output
+          .trim()
+          .split(/\r?\n/u)
+          .filter((line) => {
+            // Extract file path from git grep output format: commit:"path":linenum:content
+            const match = line.match(/^[^:]+:"([^"]+)":/);
+            if (!match) return true;
+
+            // Decode octal escape sequences: git outputs UTF-8 bytes as \344\270\232
+            // Convert octal sequences to bytes, then decode as UTF-8
+            let rawPath = match[1];
+            if (rawPath.includes('\\')) {
+              const bytes = [];
+              let i = 0;
+              while (i < rawPath.length) {
+                if (rawPath[i] === '\\' && /\d{3}/.test(rawPath.slice(i + 1, i + 4))) {
+                  bytes.push(parseInt(rawPath.slice(i + 1, i + 4), 8));
+                  i += 4;
+                } else {
+                  bytes.push(rawPath.charCodeAt(i));
+                  i++;
+                }
+              }
+              rawPath = Buffer.from(bytes).toString('utf8');
+            }
+            const filePath = normalize(rawPath);
+
+            // Skip if the file is now in a private path (including legacy paths)
+            const shouldFilter = allPrivatePathsIncludingLegacy.some((privatePath) => {
+              const normalizedPrivatePath = normalize(privatePath);
+              return filePath === normalizedPrivatePath || filePath.startsWith(normalizedPrivatePath);
+            });
+
+            return !shouldFilter;
+          })
+          .map((line) => `history ${commit.slice(0, 12)}: ${line}`);
+
+        violations.push(...matches);
       }
     } catch (error) {
       if (error.status !== 1) {
@@ -187,7 +225,8 @@ const validateSourceConfiguration = () => {
   }
 
   for (const pattern of [
-    "/99-业务场景实践题/简历项目复盘/"
+    "/99-业务场景实践题/简历项目复盘/",
+    "/99-业务场景实践题/README.md"
   ]) {
     if (!gitignore.includes(pattern)) {
       violations.push(`.gitignore: missing ${pattern}`);

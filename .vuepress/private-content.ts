@@ -26,6 +26,7 @@ export const privateContentPatterns = [
   "!.agent/**",
   "!.agents/**",
   "!.obsidian/**",
+  "!99-业务场景实践题/README.md",
   ...legacyPrivateArticlePatterns,
   ...[...localPrivateArticlePaths].map((path) => `!${path}`)
 ];
