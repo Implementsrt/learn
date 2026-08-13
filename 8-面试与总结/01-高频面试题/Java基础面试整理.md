@@ -1,8 +1,8 @@
 # 一、Java 基础
 
-## 1. HashMap 的底层原理？
+## Q1：HashMap 的底层原理？
 
-> 知识点：[HashMap 与 ConcurrentHashMap](../../1-Java基础/02-集合框架与数据结构/2026-06-24-HashMap与ConcurrentHashMap.md)
+> 知识点：[HashMap 与 ConcurrentHashMap](../../1-Java基础/02-集合框架与数据结构/2026-06-24-HashMap与ConcurrentHashMap.md#q1-hashmap-和-concurrenthashmap)
 
 **数据结构：** 数组 + 链表 + 红黑树（JDK 1.8+）
 
@@ -37,9 +37,9 @@ table[] 数组
 
 ---
 
-## 2. ConcurrentHashMap 怎么保证线程安全？
+## Q2：ConcurrentHashMap 怎么保证线程安全？
 
-> 知识点：[ConcurrentHashMap 并发机制](../../1-Java基础/04-并发编程/2026-06-24-ConcurrentHashMap并发机制.md)
+> 知识点：[ConcurrentHashMap 并发机制](../../1-Java基础/04-并发编程/2026-06-24-ConcurrentHashMap并发机制.md#q1-concurrenthashmap-的并发机制)
 
 **JDK 1.7：** 分段锁（Segment），每个 Segment 是一个小的 HashMap，各自加锁，不同 Segment 互不影响。
 
@@ -65,9 +65,9 @@ JDK 1.8:
 
 ---
 
-## 3. ArrayList 和 LinkedList 的区别？
+## Q3：ArrayList 和 LinkedList 的区别？
 
-> 知识点：[ArrayList 扩容机制](../../1-Java基础/02-集合框架与数据结构/2026-06-24-ArrayList扩容机制.md)
+> 知识点：[ArrayList 扩容机制](../../1-Java基础/02-集合框架与数据结构/2026-06-24-ArrayList扩容机制.md#q1-arraylist-的扩容机制)
 
 | 对比 | ArrayList | LinkedList |
 |------|-----------|------------|
@@ -82,9 +82,9 @@ JDK 1.8:
 
 ---
 
-## 4. String、StringBuilder、StringBuffer 的区别？
+## Q4：String、StringBuilder、StringBuffer 的区别？
 
-> 知识点：[字符串常量池与不可变字符串](../../1-Java基础/05-JVM原理与调优/2026-06-24-字符串常量池.md)
+> 知识点：[字符串常量池与不可变字符串](../../1-Java基础/05-JVM原理与调优/2026-06-24-字符串常量池.md#q1-jvm-字符串常量池存储的是字符串值还是堆的引用)
 
 | 对比 | String | StringBuilder | StringBuffer |
 |------|--------|---------------|-------------|
@@ -101,9 +101,8 @@ JDK 1.8:
 
 ---
 
-## 5. == 和 equals 的区别？
+## Q5：== 和 equals 的区别？
 
-> 知识点：[面向对象与核心语法](../../1-Java基础/01-面向对象与核心语法/README.md#核心知识点)
 
 - `==`：比较**引用地址**（基本类型比较值）
 - `equals`：比较**内容**（需要重写，否则默认还是 ==）
@@ -123,9 +122,8 @@ c == d        // true（字符串常量池，同一个对象）
 
 ---
 
-## 6. 接口和抽象类的区别？
+## Q6：接口和抽象类的区别？
 
-> 知识点：[面向对象与核心语法](../../1-Java基础/01-面向对象与核心语法/README.md#核心知识点)
 
 | 对比 | 接口 (interface) | 抽象类 (abstract class) |
 |------|-----------------|----------------------|
@@ -137,9 +135,8 @@ c == d        // true（字符串常量池，同一个对象）
 
 ---
 
-## 7. Java 中的异常体系？
+## Q7：Java 中的异常体系？
 
-> 知识点：[面向对象与核心语法](../../1-Java基础/01-面向对象与核心语法/README.md#核心知识点)
 
 ```
 Throwable
@@ -163,9 +160,8 @@ Throwable
 
 ---
 
-## 8. final、finally、finalize 的区别？
+## Q8：final、finally、finalize 的区别？
 
-> 知识点：[面向对象与核心语法](../../1-Java基础/01-面向对象与核心语法/README.md#核心知识点)
 
 - **final：** 修饰类（不可继承）、方法（不可重写）、变量（不可重新赋值，引用不可变但对象内容可变）
 - **finally：** try-catch-finally 中一定会执行的代码块（除非 JVM 退出）
@@ -175,9 +171,8 @@ Throwable
 
 # 十四、Java 8 新特性（高频）
 
-## 1. Lambda 表达式
+## Q9：Lambda 表达式
 
-> 知识点：[Java 8+ 新特性](../../1-Java基础/06-Java8+新特性/README.md#核心知识点)
 
 ```java
 // 传统写法
@@ -207,9 +202,8 @@ new Thread(() -> System.out.println("hello")).start();
 
 ---
 
-## 2. Stream API
+## Q10：Stream API
 
-> 知识点：[Java 8+ 新特性](../../1-Java基础/06-Java8+新特性/README.md#核心知识点)
 
 ```java
 List<User> users = userList.stream()
@@ -268,9 +262,8 @@ String nameStr = list.stream()
 
 ---
 
-## 3. Optional
+## Q11：Optional
 
-> 知识点：[Java 8+ 新特性](../../1-Java基础/06-Java8+新特性/README.md#核心知识点)
 
 ```java
 // 避免 NullPointerException 的利器
@@ -306,9 +299,8 @@ Optional.ofNullable(user)
 
 ---
 
-## 4. 接口的 default 方法和 static 方法
+## Q12：接口的 default 方法和 static 方法
 
-> 知识点：[Java 8+ 新特性](../../1-Java基础/06-Java8+新特性/README.md#核心知识点)
 
 ```java
 public interface MyInterface {
@@ -332,9 +324,8 @@ public interface MyInterface {
 
 ---
 
-## 5. 新的日期时间 API
+## Q13：新的日期时间 API
 
-> 知识点：[Java 8+ 新特性](../../1-Java基础/06-Java8+新特性/README.md#核心知识点)
 
 ```java
 // 旧 API 的问题：Date 可变、线程不安全、月份从 0 开始
@@ -362,9 +353,9 @@ LocalDateTime parsed = LocalDateTime.parse(str, fmt);
 
 # 十五、Java 基础补充
 
-## 1. Java 反射
+## Q14：Java 反射
 
-> 知识点：[Java 反射及其原理](../../2-Java高级/01-反射与字节码/2026-06-24-Java反射及其原理.md)
+> 知识点：[Java 反射及其原理](../../2-Java高级/01-反射与字节码/2026-06-24-Java反射及其原理.md#q1-说一下反射及其原理)
 
 ```java
 // 获取 Class 对象的三种方式
@@ -402,9 +393,8 @@ MyAnnotation annotation = method.getAnnotation(MyAnnotation.class);
 
 ---
 
-## 2. Java 泛型
+## Q15：Java 泛型
 
-> 知识点：[面向对象与核心语法](../../1-Java基础/01-面向对象与核心语法/README.md#核心知识点)
 
 ```java
 // 泛型类
@@ -435,9 +425,9 @@ List<? super Integer>   // 下界通配符（逆变，只写）——Integer 及
 
 ---
 
-## 3. Java 序列化
+## Q16：Java 序列化
 
-> 知识点：[Java 序列化与 serialVersionUID](../../1-Java基础/03-IO与NIO/2026-06-28-Java序列化与serialVersionUID.md)
+> 知识点：[Java 序列化与 serialVersionUID](../../1-Java基础/03-IO与NIO/2026-06-28-Java序列化与serialVersionUID.md#q1-为什么需要显式指定-serialversionuid)
 
 ```java
 // Java 序列化
@@ -465,9 +455,8 @@ User user = (User) ois.readObject();
 
 ---
 
-## 4. Java 中创建线程的几种方式？
+## Q17：Java 中创建线程的几种方式？
 
-> 知识点：[并发编程核心知识点](../../1-Java基础/04-并发编程/README.md#核心知识点)
 
 ```java
 // 方式 1：继承 Thread
@@ -495,9 +484,8 @@ pool.execute(() -> { ... });
 
 ---
 
-## 5. 深拷贝和浅拷贝？
+## Q18：深拷贝和浅拷贝？
 
-> 知识点：[面向对象与核心语法](../../1-Java基础/01-面向对象与核心语法/README.md#核心知识点)
 
 ```
 浅拷贝：只复制对象本身，不复制引用的对象
@@ -529,9 +517,8 @@ User copy = objectMapper.readValue(json, User.class);
 
 ---
 
-## 6. Java 中的集合框架总览
+## Q19：Java 中的集合框架总览
 
-> 知识点：[集合框架与数据结构](../../1-Java基础/02-集合框架与数据结构/README.md#核心知识点)
 
 ```
 Collection（单列集合）
@@ -566,9 +553,9 @@ Map（双列集合，键值对）
 
 ---
 
-## 7. HashSet 为什么不重复？
+## Q20：HashSet 为什么不重复？
 
-> 知识点：[HashMap 与 ConcurrentHashMap](../../1-Java基础/02-集合框架与数据结构/2026-06-24-HashMap与ConcurrentHashMap.md)
+> 知识点：[HashMap 与 ConcurrentHashMap](../../1-Java基础/02-集合框架与数据结构/2026-06-24-HashMap与ConcurrentHashMap.md#q1-hashmap-和-concurrenthashmap)
 
 ```
 HashSet 底层就是 HashMap：

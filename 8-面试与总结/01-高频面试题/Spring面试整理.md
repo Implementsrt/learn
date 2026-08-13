@@ -1,8 +1,8 @@
 # 四、Spring / Spring Boot
 
-## 1. Spring IOC 和 AOP？
+## Q1：Spring IOC 和 AOP？
 
-> 知识点：[Spring AOP 代理链](../../3-Java框架/01-Spring核心/2026-06-24-Spring-AOP代理链.md)
+> 知识点：[Spring AOP 代理链](../../3-Java框架/01-Spring核心/2026-06-24-Spring-AOP代理链.md#q1-spring-aop-是多层代理还是一层代理处理所有增强)
 
 **IOC（控制反转）：** 对象的创建和依赖关系由 Spring 容器管理，而不是程序员 new。
 
@@ -36,9 +36,9 @@ IOC 方式：@Autowired UserService service;              // 容器注入
 
 ---
 
-## 2. Spring Bean 的生命周期？
+## Q2：Spring Bean 的生命周期？
 
-> 知识点：[Spring Bean 生命周期](../../3-Java框架/01-Spring核心/2026-06-24-Spring-Bean生命周期.md)
+> 知识点：[Spring Bean 生命周期](../../3-Java框架/01-Spring核心/2026-06-24-Spring-Bean生命周期.md#q1-bean-的生命周期以及各个阶段的关键点)
 
 ```
 ① 实例化：new 对象（反射）
@@ -61,9 +61,9 @@ IOC 方式：@Autowired UserService service;              // 容器注入
 
 ---
 
-## 3. Spring 循环依赖怎么解决？
+## Q3：Spring 循环依赖怎么解决？
 
-> 知识点：[Spring 三级缓存与循环依赖](../../3-Java框架/01-Spring核心/2026-06-24-Spring三级缓存与循环依赖.md)
+> 知识点：[Spring 三级缓存与循环依赖](../../3-Java框架/01-Spring核心/2026-06-24-Spring三级缓存与循环依赖.md#q1-spring-如何通过三级缓存解决循环依赖-以及为什么需要三级缓存)
 
 **三级缓存：**
 
@@ -89,9 +89,9 @@ singletonFactories      （三级）Bean 工厂（用于创建代理对象）
 
 ---
 
-## 4. Spring 事务失效的场景？
+## Q4：Spring 事务失效的场景？
 
-> 知识点：[Spring 事务原理与失效场景](Spring面试整理.md#五、事务原理)
+> 知识点：[Spring 事务原理与失效场景](../../3-Java框架/01-Spring核心/2026-08-14-Spring事务原理与失效场景.md#q2-spring-事务为什么会失效-传播行为如何选择)
 
 | 场景 | 原因 |
 |------|------|
@@ -126,9 +126,9 @@ public class UserService {
 
 ---
 
-## 5. Spring Boot 自动配置原理？
+## Q5：Spring Boot 自动配置原理？
 
-> 知识点：[Spring Boot 核心组件与自动配置](../../3-Java框架/02-SpringBoot/2026-07-22-SpringBoot核心组件与原理.md)
+> 知识点：[Spring Boot 核心组件与自动配置](../../3-Java框架/02-SpringBoot/2026-07-22-SpringBoot核心组件与原理.md#q1-spring-boot-有哪些核心组件-启动和自动配置的原理是什么)
 
 ```
 @SpringBootApplication
@@ -152,7 +152,7 @@ public class UserService {
 
 # 十八、Spring 补充
 
-## 1. @Autowired 和 @Resource 的区别？
+## Q6：@Autowired 和 @Resource 的区别？
 
 | 对比 | @Autowired | @Resource |
 |------|-----------|-----------|
@@ -173,7 +173,7 @@ private PayService payService;
 
 ---
 
-## 2. Spring MVC 执行流程（详细版）
+## Q7：Spring MVC 执行流程（详细版）
 
 ```
 客户端请求
@@ -211,7 +211,7 @@ DispatcherServlet.doDispatch()
 
 ---
 
-## 3. Spring 事务传播行为？
+## Q8：Spring 事务传播行为？
 
 | 传播行为 | 说明 | 场景 |
 |---------|------|------|
@@ -252,7 +252,7 @@ public class LogService {
 
 ---
 
-## 4. Spring 中的设计模式？
+## Q9：Spring 中的设计模式？
 
 | 模式 | 应用 |
 |------|------|
@@ -267,7 +267,7 @@ public class LogService {
 
 ---
 
-## 5. @Component、@Service、@Repository、@Controller 的区别？
+## Q10：@Component、@Service、@Repository、@Controller 的区别？
 
 **功能上没有区别**，都是把类注册为 Spring Bean。区别在于语义：
 

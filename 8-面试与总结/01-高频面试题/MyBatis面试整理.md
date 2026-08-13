@@ -2,12 +2,12 @@
 
 ## 项目场景提炼索引
 
-- [Q1：MyBatis 如何解决一对多查询的主表分页截断？](MyBatis面试整理.md#q1-mybatis-如何解决一对多查询的主表分页截断)
-- [Q2：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？](MyBatis面试整理.md#q2-如何用-aop-和-mybatis-拦截器实现低侵入数据权限)
+- [Q4：MyBatis 如何解决一对多查询的主表分页截断？](MyBatis面试整理.md#q4-mybatis-如何解决一对多查询的主表分页截断)
+- [Q5：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？](MyBatis面试整理.md#q5-如何用-aop-和-mybatis-拦截器实现低侵入数据权限)
 
-## 1. #{} 和 ${} 的区别？
+## Q1：#{} 和 ${} 的区别？
 
-> 知识点：[MyBatis Mapper 工作原理](../../3-Java框架/04-ORM与数据访问/2026-07-23-MyBatis-Mapper工作原理.md)
+> 知识点：[MyBatis Mapper 工作原理](../../3-Java框架/04-ORM与数据访问/2026-07-23-MyBatis-Mapper工作原理.md#q1-mybatis-mapper-接口没有实现类-为什么可以执行-sql)
 
 | 对比 | #{} | ${} |
 |------|-----|-----|
@@ -26,9 +26,9 @@ SELECT * FROM user ORDER BY create_time
 
 ---
 
-## 2. MyBatis 的一级缓存和二级缓存？
+## Q2：MyBatis 的一级缓存和二级缓存？
 
-> 知识点：[MyBatis 一级缓存与二级缓存详解](MyBatis面试整理.md#二十八、mybatis-深入面试题)
+> 知识点：[MyBatis 一级缓存与二级缓存详解](../../3-Java框架/04-ORM与数据访问/2026-08-14-MyBatis缓存机制.md#q1-mybatis-一级缓存和二级缓存分别是什么-为什么会失效)
 
 | 对比 | 一级缓存 | 二级缓存 |
 |------|---------|---------|
@@ -41,9 +41,9 @@ SELECT * FROM user ORDER BY create_time
 
 ---
 
-## 3. MyBatis 插件（拦截器）原理？
+## Q3：MyBatis 插件（拦截器）原理？
 
-> 知识点：[MyBatis 插件机制与数据访问层说明](../../3-Java框架/04-ORM与数据访问/README.md#mybatis)
+> 知识点：[MyBatis 插件机制与数据访问层说明](../../3-Java框架/04-ORM与数据访问/2026-08-14-MyBatis插件与数据权限.md#q1-mybatis-插件-interceptor-是如何工作的)
 
 MyBatis 允许拦截四大对象的方法：
 - **Executor：** 执行器（update、query）
@@ -210,9 +210,9 @@ ${} → 字符串直接拼接
 
 # 二十九、项目场景：MyBatis 分页与权限插件
 
-## Q1：MyBatis 如何解决一对多查询的主表分页截断？
+## Q4：MyBatis 如何解决一对多查询的主表分页截断？
 
-> 知识点：[MyBatis 核心知识点](../../3-Java框架/04-ORM与数据访问/README.md#mybatis)
+> 知识点：[MyBatis 分页与一对多查询](../../3-Java框架/04-ORM与数据访问/2026-08-14-MyBatis分页与一对多查询.md#q1-一对多查询为什么不能直接对-join-结果分页-如何设计)
 
 ### 结论（30 秒版）
 
@@ -286,9 +286,9 @@ Result -> Result : 按主键组装 collection
 - Q：`COUNT(DISTINCT)` 很慢怎么办？
   A：保证主表主键和过滤字段有合适索引，必要时使用独立 count、汇总表或产品允许的近似统计，不能为了总数牺牲主查询稳定性。
 
-## Q2：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？
+## Q5：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？
 
-> 知识点：[MyBatis 核心知识点](../../3-Java框架/04-ORM与数据访问/README.md#mybatis)
+> 知识点：[MyBatis 插件与数据权限](../../3-Java框架/04-ORM与数据访问/2026-08-14-MyBatis插件与数据权限.md#q2-如何用-mybatis-插件实现低侵入数据权限)
 
 ### 结论（30 秒版）
 

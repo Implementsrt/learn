@@ -73,5 +73,6 @@
 - [2026-06-24-Spring-AOP代理链.md](2026-06-24-Spring-AOP代理链.md)
 - [2026-06-24-Spring-Bean生命周期.md](2026-06-24-Spring-Bean生命周期.md)
 - [2026-06-24-Spring三级缓存与循环依赖.md](2026-06-24-Spring三级缓存与循环依赖.md)
+- [2026-08-14-Spring事务原理与失效场景.md](2026-08-14-Spring事务原理与失效场景.md)
 - [2026-07-03-Spring-MVC核心流程与原理.md](2026-07-03-Spring-MVC核心流程与原理.md)
 - [2026-07-21-Spring-Security基本组件与核心原理.md](2026-07-21-Spring-Security基本组件与核心原理.md)
