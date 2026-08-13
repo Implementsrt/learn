@@ -2,6 +2,8 @@
 
 ## 1. synchronized 和 ReentrantLock 的区别？
 
+> 知识点：[Java 锁与锁升级](../../1-Java基础/04-并发编程/2026-06-24-Java锁与锁升级.md)
+
 | 对比 | synchronized | ReentrantLock |
 |------|-------------|---------------|
 | 实现 | JVM 内置，monitorenter/monitorexit | JDK API（AQS） |
@@ -24,6 +26,8 @@
 ---
 
 ## 2. volatile 关键字的作用？
+
+> 知识点：[JMM Java 内存模型](../../1-Java基础/04-并发编程/2026-06-24-JMM内存模型.md)
 
 - **可见性：** 一个线程修改 volatile 变量后，其他线程立即可见（强制从主内存读取）
 - **禁止指令重排序：** 通过内存屏障防止编译器和 CPU 重排序
@@ -54,6 +58,8 @@ public class Singleton {
 ---
 
 ## 3. 线程池参数详解？
+
+> 知识点：[线程池核心原理](../../1-Java基础/04-并发编程/2026-06-25-线程池核心原理.md)
 
 ```java
 new ThreadPoolExecutor(
@@ -106,6 +112,8 @@ new ThreadPoolExecutor(
 
 ## 4. ThreadLocal 原理？内存泄漏？
 
+> 知识点：[并发编程核心知识点](../../1-Java基础/04-并发编程/README.md#核心知识点)
+
 **原理：** 每个线程内部有一个 ThreadLocalMap，以 ThreadLocal 对象为 key，存储线程私有数据。
 
 ```
@@ -128,6 +136,8 @@ Entry 的 key 是 WeakReference<ThreadLocal>
 ---
 
 ## 5. AQS（AbstractQueuedSynchronizer）是什么？
+
+> 知识点：[AQS 同步器](../../1-Java基础/04-并发编程/2026-06-24-AQS同步器.md)
 
 AQS 是 Java 并发包的基础框架，ReentrantLock、Semaphore、CountDownLatch 都基于它。
 
@@ -152,6 +162,8 @@ HEAD ──►│Node A│──►│Node B│──►│Node C│  ← 等待
 # 十六、Java 并发补充
 
 ## 1. CAS 是什么？ABA 问题？
+
+> 知识点：[并发编程核心知识点](../../1-Java基础/04-并发编程/README.md#核心知识点)
 
 ```
 CAS（Compare And Swap）：
@@ -183,6 +195,8 @@ CAS（Compare And Swap）：
 ---
 
 ## 2. CountDownLatch、CyclicBarrier、Semaphore？
+
+> 知识点：[并发工具](../../1-Java基础/04-并发编程/README.md#核心知识点)
 
 ```java
 // CountDownLatch：倒计时器，等待多个线程完成
@@ -236,6 +250,8 @@ for (int i = 0; i < 10; i++) {
 
 ## 3. CompletableFuture（异步编排）
 
+> 知识点：[Java 8+ 新特性](../../1-Java基础/06-Java8+新特性/README.md#java-8)
+
 ```java
 // 异步执行
 CompletableFuture<User> future = CompletableFuture.supplyAsync(() -> {
@@ -275,6 +291,8 @@ userFuture.thenCombine(orderFuture, (user, orders) -> {
 
 ## 4. 线程的生命周期（6 种状态）
 
+> 知识点：[并发编程核心知识点](../../1-Java基础/04-并发编程/README.md#核心知识点)
+
 ```
      ┌──────────────────────────────────────────────────┐
      │                                                    │
@@ -301,6 +319,8 @@ TERMINATED：    run() 方法执行结束
 ---
 
 ## 5. 死锁的条件和排查？
+
+> 知识点：[Java 锁与锁升级](../../1-Java基础/04-并发编程/2026-06-24-Java锁与锁升级.md)
 
 ```
 四个必要条件（缺一不可）：
@@ -346,6 +366,8 @@ new Thread(() -> {
 ---
 
 ## 6. wait() 和 sleep() 的区别？
+
+> 知识点：[Java 锁与锁升级](../../1-Java基础/04-并发编程/2026-06-24-Java锁与锁升级.md)
 
 | 对比 | wait() | sleep() |
 |------|--------|---------|

@@ -2,10 +2,12 @@
 
 ## 项目场景提炼索引
 
-- Q1：MyBatis 如何解决一对多查询的主表分页截断？
-- Q2：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？
+- [Q1：MyBatis 如何解决一对多查询的主表分页截断？](MyBatis面试整理.md#q1-mybatis-如何解决一对多查询的主表分页截断)
+- [Q2：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？](MyBatis面试整理.md#q2-如何用-aop-和-mybatis-拦截器实现低侵入数据权限)
 
 ## 1. #{} 和 ${} 的区别？
+
+> 知识点：[MyBatis Mapper 工作原理](../../3-Java框架/04-ORM与数据访问/2026-07-23-MyBatis-Mapper工作原理.md)
 
 | 对比 | #{} | ${} |
 |------|-----|-----|
@@ -26,6 +28,8 @@ SELECT * FROM user ORDER BY create_time
 
 ## 2. MyBatis 的一级缓存和二级缓存？
 
+> 知识点：[MyBatis 一级缓存与二级缓存详解](MyBatis面试整理.md#二十八、mybatis-深入面试题)
+
 | 对比 | 一级缓存 | 二级缓存 |
 |------|---------|---------|
 | 范围 | SqlSession 级别 | Mapper（namespace）级别 |
@@ -38,6 +42,8 @@ SELECT * FROM user ORDER BY create_time
 ---
 
 ## 3. MyBatis 插件（拦截器）原理？
+
+> 知识点：[MyBatis 插件机制与数据访问层说明](../../3-Java框架/04-ORM与数据访问/README.md#mybatis)
 
 MyBatis 允许拦截四大对象的方法：
 - **Executor：** 执行器（update、query）
@@ -206,6 +212,8 @@ ${} → 字符串直接拼接
 
 ## Q1：MyBatis 如何解决一对多查询的主表分页截断？
 
+> 知识点：[MyBatis 核心知识点](../../3-Java框架/04-ORM与数据访问/README.md#mybatis)
+
 ### 结论（30 秒版）
 
 一对多查询不能直接对 JOIN 展开的结果执行 `LIMIT`，因为数据库分页的是子表行，而业务需要分页的是主表对象。正确做法是先按主表主键和稳定排序条件分页取主表，再回表关联子表；`count` 也按主表去重统计。实现上可由 MyBatis 拦截器识别显式标记的查询，交给自定义 Dialect 改写 page SQL 和 count SQL，普通单表查询继续走默认逻辑。
@@ -279,6 +287,8 @@ Result -> Result : 按主键组装 collection
   A：保证主表主键和过滤字段有合适索引，必要时使用独立 count、汇总表或产品允许的近似统计，不能为了总数牺牲主查询稳定性。
 
 ## Q2：如何用 AOP 和 MyBatis 拦截器实现低侵入数据权限？
+
+> 知识点：[MyBatis 核心知识点](../../3-Java框架/04-ORM与数据访问/README.md#mybatis)
 
 ### 结论（30 秒版）
 

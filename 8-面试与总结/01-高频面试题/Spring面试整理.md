@@ -2,6 +2,8 @@
 
 ## 1. Spring IOC 和 AOP？
 
+> 知识点：[Spring AOP 代理链](../../3-Java框架/01-Spring核心/2026-06-24-Spring-AOP代理链.md)
+
 **IOC（控制反转）：** 对象的创建和依赖关系由 Spring 容器管理，而不是程序员 new。
 
 ```
@@ -36,6 +38,8 @@ IOC 方式：@Autowired UserService service;              // 容器注入
 
 ## 2. Spring Bean 的生命周期？
 
+> 知识点：[Spring Bean 生命周期](../../3-Java框架/01-Spring核心/2026-06-24-Spring-Bean生命周期.md)
+
 ```
 ① 实例化：new 对象（反射）
   ↓
@@ -58,6 +62,8 @@ IOC 方式：@Autowired UserService service;              // 容器注入
 ---
 
 ## 3. Spring 循环依赖怎么解决？
+
+> 知识点：[Spring 三级缓存与循环依赖](../../3-Java框架/01-Spring核心/2026-06-24-Spring三级缓存与循环依赖.md)
 
 **三级缓存：**
 
@@ -84,6 +90,8 @@ singletonFactories      （三级）Bean 工厂（用于创建代理对象）
 ---
 
 ## 4. Spring 事务失效的场景？
+
+> 知识点：[Spring 事务原理与失效场景](Spring面试整理.md#五、事务原理)
 
 | 场景 | 原因 |
 |------|------|
@@ -119,6 +127,8 @@ public class UserService {
 ---
 
 ## 5. Spring Boot 自动配置原理？
+
+> 知识点：[Spring Boot 核心组件与自动配置](../../3-Java框架/02-SpringBoot/2026-07-22-SpringBoot核心组件与原理.md)
 
 ```
 @SpringBootApplication
