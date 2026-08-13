@@ -78,7 +78,9 @@
   gap: 0.3rem;
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
+  white-space: nowrap;
 }
 
 .open-page-tabs__activate,
