@@ -29,7 +29,9 @@ jobs:
 
       - name: Configure GitHub Pages
         id: pages
-        uses: actions/configure-pages@v5
+        # 首次运行前需在仓库 Settings -> Pages 中将 Source 设为 GitHub Actions。
+        # 自动启用要求仓库管理权限令牌，默认 GITHUB_TOKEN 无法安全完成此操作。
+        uses: actions/configure-pages@v6
 
       - name: Install dependencies
         run: npm ci
