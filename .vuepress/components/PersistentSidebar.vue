@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vuepress/client";
+import { stripOrderPrefix } from "../document-order.js";
 
 type SidebarLink = {
   text: string;
@@ -25,7 +26,7 @@ const expandedGroups = ref<Set<string>>(new Set());
 
 const isGroup = (item: SidebarItem): item is SidebarGroup => "children" in item;
 // README 标题可能带有与目录名一致的数字前缀，展示时保留正文名称即可。
-const folderTitle = (text: string) => text.replace(/^\d+\s*(?:[-._、]|-)\s*/u, "");
+const folderTitle = stripOrderPrefix;
 
 const matchesRoute = (item: SidebarItem): boolean => {
   if (!isGroup(item)) {
@@ -102,7 +103,7 @@ watch(
             @click="navigate(item.link)"
           >
             <span class="persistent-sidebar__file-icon" aria-hidden="true"></span>
-            <span>{{ item.text }}</span>
+            <span>{{ folderTitle(item.text) }}</span>
           </button>
         </li>
         <li v-else class="persistent-sidebar__folder">
@@ -129,7 +130,7 @@ watch(
                   @click="navigate(child.link)"
                 >
                   <span class="persistent-sidebar__file-icon" aria-hidden="true"></span>
-                  <span>{{ child.text }}</span>
+                  <span>{{ folderTitle(child.text) }}</span>
                 </button>
               </li>
               <li v-else class="persistent-sidebar__folder persistent-sidebar__folder--nested">
@@ -161,7 +162,7 @@ watch(
                       @click="navigate(article.link)"
                     >
                       <span class="persistent-sidebar__file-icon" aria-hidden="true"></span>
-                      <span>{{ article.text }}</span>
+                      <span>{{ folderTitle(article.text) }}</span>
                     </button>
                   </li>
                 </ul>

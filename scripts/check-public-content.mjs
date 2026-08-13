@@ -241,7 +241,7 @@ if (artifactDirectory !== null) {
     .filter(isPrivatePath)
     .map((file) => `${file}: private path is tracked`);
   const textFiles = files
-    .filter((file) => /\.(?:md|html)$/u.test(file))
+    .filter((file) => /\.(?:md|html)$/u.test(file) && existsSync(join(root, file)))
     .map((file) => join(root, file));
   const violations = [
     ...validateSourceConfiguration(),

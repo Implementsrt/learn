@@ -1,20 +1,17 @@
 import { hopeTheme } from "vuepress-theme-hope";
 import type { SidebarInfo } from "vuepress-theme-hope";
+import { compareDocumentNames } from "./document-order.js";
 import { publicNavbarGroups } from "./navbar.js";
 
 const getSidebarName = (info: SidebarInfo) =>
   info.type === "dir" ? info.dirname : info.filename;
 
-// 侧栏沿用文件系统的数字编排，并保证同级目录先于文档。
 const compareSidebarInfo = (left: SidebarInfo, right: SidebarInfo) => {
   if (left.type !== right.type) {
     return left.type === "dir" ? -1 : 1;
   }
 
-  return getSidebarName(left).localeCompare(getSidebarName(right), "zh-CN", {
-    numeric: true,
-    sensitivity: "base"
-  });
+  return compareDocumentNames(getSidebarName(left), left.title, getSidebarName(right), right.title);
 };
 
 export default hopeTheme({

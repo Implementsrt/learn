@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync, type Dirent } from "node:fs";
 import { join } from "node:path";
+import { compareDocumentNames, stripOrderPrefix } from "./document-order.js";
 import { getRelativePath, isPublicArticle } from "./private-content.js";
 
 type NavbarArticle = {
@@ -32,29 +33,28 @@ const publicTopLevelDirectories = [
   "99-业务场景实践题"
 ];
 
-const stripOrderPrefix = (value: string) => value.replace(/^\d+-/u, "");
 const stripDatePrefix = (value: string) => value.replace(/^\d{4}-\d{2}-\d{2}-/u, "");
 
-// 数字前缀表达本地编排顺序；同级目录统一排在文章前面。
-const compareLocalNames = (left: string, right: string) =>
-  left.localeCompare(right, "zh-CN", {
-    numeric: true,
-    sensitivity: "base"
-  });
-
-const compareDirectoryEntries = (left: Dirent, right: Dirent) => {
-  if (left.isDirectory() !== right.isDirectory()) {
-    return left.isDirectory() ? -1 : 1;
-  }
-
-  return compareLocalNames(left.name, right.name);
-};
-
-const decodeTitle = (filePath: string) => {
+const readTitle = (filePath: string) => {
   const source = readFileSync(filePath, "utf8");
   const title = source.match(/^#\s+(.+)$/mu)?.[1]?.trim();
 
   return title ?? stripDatePrefix(filePath.split(/[\\/]/u).at(-1)?.replace(/\.md$/u, "") ?? "");
+};
+
+const compareDirectoryEntries = (
+  left: { entry: Dirent; title: string },
+  right: { entry: Dirent; title: string }
+) => {
+  if (left.entry.isDirectory() !== right.entry.isDirectory()) {
+    return left.entry.isDirectory() ? -1 : 1;
+  }
+
+  return compareDocumentNames(left.entry.name, left.title, right.entry.name, right.title);
+};
+
+const decodeTitle = (filePath: string) => {
+  return stripOrderPrefix(readTitle(filePath));
 };
 
 const toRoute = (filePath: string) => {
@@ -67,28 +67,48 @@ const toRoute = (filePath: string) => {
   return `/${path.replace(/\.md$/u, ".html")}`;
 };
 
-const readArticles = (directoryPath: string): NavbarArticle[] =>
-  readdirSync(directoryPath, { withFileTypes: true })
+const readArticles = (directoryPath: string): NavbarArticle[] => {
+  const articleSources = readdirSync(directoryPath, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md") && entry.name !== "README.md")
-    .sort((left, right) => compareLocalNames(left.name, right.name))
     .filter((entry) => isPublicArticle(join(directoryPath, entry.name)))
     .map((entry) => {
       const filePath = join(directoryPath, entry.name);
 
       return {
-        text: decodeTitle(filePath),
-        link: toRoute(filePath)
+        entry,
+        filePath,
+        title: readTitle(filePath)
       };
     });
+
+  return articleSources
+    .sort((left, right) =>
+      compareDocumentNames(left.entry.name, left.title, right.entry.name, right.title)
+    )
+    .map(({ filePath }) => ({
+      text: decodeTitle(filePath),
+      link: toRoute(filePath)
+    }));
+};
+
+const readDirectoryTitle = (directoryPath: string) => {
+  const readmePath = join(directoryPath, "README.md");
+
+  return existsSync(readmePath) ? readTitle(readmePath) : "";
+};
 
 const readDirectories = (topLevelDirectory: string): NavbarDirectory[] => {
   const directoryPath = join(root, topLevelDirectory);
 
   const nestedDirectories = readdirSync(directoryPath, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
+    .map((entry) => ({
+      entry,
+      title: readDirectoryTitle(join(directoryPath, entry.name))
+    }))
     .sort(compareDirectoryEntries);
 
-  const directories = nestedDirectories.map((entry) => {
+  const directories = nestedDirectories.map(({ entry }) => {
     const nestedPath = join(directoryPath, entry.name);
 
     return {
