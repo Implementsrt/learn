@@ -143,10 +143,18 @@ const validateSourceConfiguration = () => {
   const violations = [];
   const gitignore = readFileSync(join(root, ".gitignore"), "utf8");
   const config = readFileSync(join(root, ".vuepress", "config.ts"), "utf8");
+  const privateContent = readFileSync(join(root, ".vuepress", "private-content.ts"), "utf8");
   const guardScript = readFileSync(join(root, "scripts", "check-public-content.mjs"), "utf8");
 
-  if (!config.includes(".private-content.json") || !config.includes("localPrivateContentPatterns")) {
-    violations.push(".vuepress/config.ts: missing local private manifest loading");
+  if (
+    !config.includes('import { privateContentPatterns }') ||
+    !config.includes('pagePatterns: ["**/*.md", ...privateContentPatterns]')
+  ) {
+    violations.push(".vuepress/config.ts: must use the shared private content patterns");
+  }
+
+  if (!privateContent.includes(".private-content.json") || !privateContent.includes("localPrivateArticlePaths")) {
+    violations.push(".vuepress/private-content.ts: missing local private manifest loading");
   }
 
   if (!guardScript.includes("scanHistoryText")) {
@@ -162,8 +170,8 @@ const validateSourceConfiguration = () => {
     "!.agents/**",
     "!.obsidian/**"
   ]) {
-    if (!config.includes(pagePattern)) {
-      violations.push(`.vuepress/config.ts: missing ${pagePattern}`);
+    if (!privateContent.includes(pagePattern)) {
+      violations.push(`.vuepress/private-content.ts: missing ${pagePattern}`);
     }
   }
 
@@ -202,8 +210,8 @@ const validateSourceConfiguration = () => {
       violations.push(`.gitignore: missing ${pattern}`);
     }
 
-    if (!config.includes(`!${pattern.slice(1)}`)) {
-      violations.push(".vuepress/config.ts: missing legacy private content pattern");
+    if (!privateContent.includes(`!${pattern.slice(1)}`)) {
+      violations.push(".vuepress/private-content.ts: missing legacy private content pattern");
       break;
     }
   }
