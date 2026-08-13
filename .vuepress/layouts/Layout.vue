@@ -31,7 +31,7 @@ onBeforeUnmount(() => document.removeEventListener("click", handleTocLinkClick, 
     <template #sidebarItems="items">
       <PersistentSidebar :items="items" />
     </template>
-    <template #contentBefore>
+    <template #pageTop>
       <OpenPageTabs />
     </template>
   </Layout>

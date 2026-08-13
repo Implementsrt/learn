@@ -23,6 +23,8 @@
 /node_modules/
 /.vuepress/.cache/
 /.vuepress/.temp/
+/.vuepress/.cache-*/
+/.vuepress/.temp-*/
 /.vuepress/dist/
 
 # Editor, IDE, operating system, and temporary files.

@@ -8,11 +8,13 @@ type OpenPage = {
 };
 
 const maxTabs = 10;
+const visibleTabs = 3;
 const storageKey = "java-architecture-learning-open-pages";
 const route = useRoute();
 const router = useRouter();
 const { page } = useData();
 const tabs = ref<OpenPage[]>([]);
+const displayedTabs = computed(() => tabs.value.slice(-visibleTabs));
 
 const isArticlePage = computed(
   () => route.path !== "/" && !route.path.endsWith("/README.html")
@@ -30,7 +32,7 @@ const restoreTabs = () => {
       tabs.value = savedTabs.filter(
         (item): item is OpenPage =>
           typeof item?.path === "string" && typeof item?.title === "string"
-      );
+      ).slice(-maxTabs);
     }
   } catch {
     window.sessionStorage.removeItem(storageKey);
@@ -111,7 +113,7 @@ watch(
     <div class="open-page-tabs__label">已打开</div>
     <div class="open-page-tabs__list" aria-label="本次打开的页面">
       <div
-        v-for="tab in tabs"
+        v-for="tab in displayedTabs"
         :key="tab.path"
         class="open-page-tabs__tab"
         :class="{ 'is-active': tab.path === route.path }"

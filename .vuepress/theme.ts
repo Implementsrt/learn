@@ -24,6 +24,7 @@ export default hopeTheme({
     ...publicNavbarGroups,
     { text: "发布规范", link: "/发布与脱敏规则.html" }
   ],
+  logo: "/logo.png",
   sidebar: "structure",
   sidebarSorter: compareSidebarInfo,
   toc: {
